@@ -86,7 +86,7 @@ DamageCalculator.calculateAttackPower = function(active, passive, weapon, isCrit
 	return Math.floor(damage);
 };
 
-	//Adapted from Claris' Distance Accuracy Plugin.
+    //Adapted from Claris' Distance Accuracy Plugin.
     var alias3 = HitCalculator.calculateSingleHit;
     HitCalculator.calculateSingleHit = function(active, passive, weapon, totalStatus) {
 	var hitRate = alias3.call(this,active,passive,weapon,totalStatus);
