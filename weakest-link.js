@@ -9,8 +9,7 @@ is used (after considering parameter bonuses) when calculating the damage an att
 Which one is used when both are equal can be set using a custom parameter.
 By default, the stat attacked will depend on whatever the weapon naturally targets.
 HUGE thank you to Claris for their CL_DefSwap.js, an invaluable reference this plugin follows
-for using DamageCalculator.calculateDefense
-
+for using DamageCalculator.calculateDefense.
 */
 
 (function() {

@@ -29,7 +29,7 @@ There are some important things to note about the custom parameters:
 	- hitPenalty and damagePenalty, if negative, will INCREASE the corresponding stats instead of lowering them.
 
 Example declaration of custom parameter:
-"{hitPenalty: 20, damagePenalty: 0.25, distanceThreshold: 1}"
+"{damagePenalty: 0.25, hitPenalty: 20, distanceThreshold: 1}"
 
 This means that the penalties will be applied to the attacker when they are attacking from more than 1 tile away.
 So at 2 range, their hit is decreased by 20 * (2 - 1) = 20, and their damage is decreased by 0.25 * (2 - 1) = 0.25.  
