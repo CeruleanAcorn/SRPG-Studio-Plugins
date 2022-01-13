@@ -30,10 +30,10 @@ DamageCalculator.calculateDefense = function(active, passive, weapon, isCritical
 		return 0;
 	}
 	
-	var skill = SkillControl.getPossessionCustomSkill(active,"weakest-link");
+	var theSkill = SkillControl.getPossessionCustomSkill(active,"weakest-link");
 	var defensiveStatUsed = alias2.call(this, active, passive, weapon, isCritical, totalStatus, trueHitValue);
 	
-	if (skill !== null){ // Do not calculate differently if skill is not available
+	if (theSkill !== null){ // Do not calculate differently if skill is not available
 		var def = RealBonus.getDef(passive);
 		var res = RealBonus.getMdf(passive);
 		if (def > res){ // def higher: calculate with res

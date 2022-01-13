@@ -15,18 +15,18 @@ hitPenalty: The amount to alter the attacker's hit rate per tile distance exceed
 damagePenalty: The amount to alter the attacker's damage per tile distance exceeding distanceThreshold
 distanceThreshold: Max tiles away the attacker can be from the target UNTIL hitPenalty or damagePenalty is then applied on a per-tile basis
 
-By default, hitPenalty: 10, damagePenalty: 0.25, distanceThreshold: 1
+By default, damagePenalty: 0.25, hitPenalty: 10, distanceThreshold: 1
 
 There are some important things to note about the custom parameters:
-- All must be a number of some sort.
-- distanceThreshold MUST be a whole number (no negative and decimal numbers)
-- hitPenalty and damagePenalty will be used in their corresponding calculations differently depending on if 
-the value given is a whole number or not. If the value is a whole number, the calculation will treat it as a 
-FLAT change where every tile beyond distanceThreshold adds the custom parameter to the corresponding stat. 
-If the value is a number that is NOT a whole number, the calculation will treat it as a PERCENTAGE change where the actual
-change is the value before the penalty minus the custom parameter multiplied by the number of tiles beyond distanceThreshold.
-For instance, a value of 2 means a -2 stat reduction per exceeded tile, while 0.2 means a 20% stat reduction per exceeded tile. 
-- hitPenalty and damagePenalty, if negative, will INCREASE the corresponding stats instead of lowering them.
+	- All must be a number of some sort.
+	- distanceThreshold MUST be a whole number (no negative and decimal numbers)
+	- hitPenalty and damagePenalty will be used in their corresponding calculations differently depending on if 
+	the value given is a whole number or not. If the value is a whole number, the calculation will treat it as a 
+	FLAT change where every tile beyond distanceThreshold adds the custom parameter to the corresponding stat. 
+	If the value is a number that is NOT a whole number, the calculation will treat it as a PERCENTAGE change where the actual
+	change is the value before the penalty minus the custom parameter multiplied by the number of tiles beyond distanceThreshold.
+	For instance, a value of 2 means a -2 stat reduction per exceeded tile, while 0.2 means a 20% stat reduction per exceeded tile. 
+	- hitPenalty and damagePenalty, if negative, will INCREASE the corresponding stats instead of lowering them.
 
 Example declaration of custom parameter:
 "{hitPenalty: 20, damagePenalty: 0.25, distanceThreshold: 1}"
@@ -76,19 +76,19 @@ DamageCalculator.calculateAttackPower = function(active, passive, weapon, isCrit
 				damage -= (damage * ((distance - distanceThreshold) * damagePenalty));
 			}else{ // damagePenalty IS a whole number, calculate via flat value.
 				damage -= ((distance - distanceThreshold) * damagePenalty);
-		}
+			}
 		
-		if(damage < 0){
-			damage = 0;
-		}
+			if(damage < 0){
+				damage = 0;
+			}
 		}
 	}
 	return Math.floor(damage);
 };
 
-    // Adapted from Claris' Distance Accuracy Plugin.
-    var alias3 = HitCalculator.calculateSingleHit;
-    HitCalculator.calculateSingleHit = function(active, passive, weapon, totalStatus) {
+// Adapted from Claris' Distance Accuracy Plugin.
+HitCalculator.calculateSingleHit = function(active, passive, weapon, totalStatus) {
+var alias3 = HitCalculator.calculateSingleHit;
 	var hitRate = alias3.call(this,active,passive,weapon,totalStatus);
 	var theSkill = SkillControl.getPossessionCustomSkill(active,"spread-penalty");
 	if (theSkill != null){
