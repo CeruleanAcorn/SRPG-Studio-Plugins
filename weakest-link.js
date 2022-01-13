@@ -6,7 +6,7 @@ Version 1.0: 1/13/2022
 
 Using this plugin, through a skill with the keyword "weakest-link" the lowest between the two of Defense and Resistance 
 is used (after considering parameter bonuses) when calculating the damage an attack will deal, a la the Vajra-Mushti's
-combat art from Three Houses.
+Combat Art from Three Houses.
 If the stats are equal, the stat attacked will depend on whatever the weapon naturally targets.
 HUGE thank you to Claris for their CL_DefSwap.js, an invaluable reference this plugin follows
 for using DamageCalculator.calculateDefense.
