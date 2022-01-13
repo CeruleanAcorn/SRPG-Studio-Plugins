@@ -1,4 +1,9 @@
 /*
+spread-penalty.js by CeruleanAcorn
+
+Version 1.0: 1/13/2022 
+	- Initial Public Release 
+
 Using this plugin, through a skill with the keyword "spread-penalty" the user's hit rate and damage is affected by specified amounts 
 when attacking a unit further than a specified distance. Of note, these changes affect the unit's 
 stat(s) BEFORE factoring in their target's own stats. This means that the values that this plugin can change,
