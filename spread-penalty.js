@@ -32,7 +32,7 @@ Example declaration of custom parameter:
 "{damagePenalty: 0.25, hitPenalty: 20, distanceThreshold: 1}"
 
 This means that the penalties will be applied to the attacker when they are attacking from more than 1 tile away.
-So at 2 range, their hit is decreased by 20 * (2 - 1) = 20, and their damage is decreased by 0.25 * (2 - 1) = 0.25.  
+So at 2 range, their hit is decreased by 20 * (2 - 1) = 20, and their damage is decreased by 0.25 * (2 - 1) = 0.25%.  
 
 Special thanks to MarkyJoe and Claris, whose Lone Wolf and Redline Slayer/Distance Accuracy plugins, respectively, 
 I've adapted from in the making of this plugin.
