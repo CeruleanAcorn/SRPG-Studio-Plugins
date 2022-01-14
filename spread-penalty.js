@@ -11,8 +11,8 @@ as seen by default in the unit menu, are their "Atk" and "Hit", with the final v
 
 The custom parameters involved in this skill are as follows:
 
-hitPenalty: The amount to alter the attacker's hit rate per tile distance exceeding distanceThreshold
 damagePenalty: The amount to alter the attacker's damage per tile distance exceeding distanceThreshold
+hitPenalty: The amount to alter the attacker's hit rate per tile distance exceeding distanceThreshold
 distanceThreshold: Max tiles away the attacker can be from the target UNTIL hitPenalty or damagePenalty is then applied on a per-tile basis
 
 By default, damagePenalty: 0.25, hitPenalty: 10, distanceThreshold: 1
@@ -25,14 +25,14 @@ There are some important things to note about the custom parameters:
 	FLAT change where every tile beyond distanceThreshold adds the custom parameter to the corresponding stat. 
 	If the value is a number that is NOT a whole number, the calculation will treat it as a PERCENTAGE change where the actual
 	change is the value before the penalty minus the custom parameter multiplied by the number of tiles beyond distanceThreshold.
-	For instance, a value of 2 means a -2 stat reduction per exceeded tile, while 0.2 means a 20% stat reduction per exceeded tile. 
+	For instance, a value of 2 means a -2 stat reduction per exceeded tile, while 0.2 means a -20% stat reduction per exceeded tile. 
 	- hitPenalty and damagePenalty, if negative, will INCREASE the corresponding stats instead of lowering them.
 
 Example declaration of custom parameters:
 "{damagePenalty: 0.25, hitPenalty: 20, distanceThreshold: 1}"
 
 This means that the penalties will be applied to the attacker when they are attacking from more than 1 tile away.
-So at 2 range, their hit is decreased by 20 * (2 - 1) = 20, and their damage is decreased by 0.25 * (2 - 1) = 0.25%.  
+So at 2 range, their hit is decreased by 20 * (2 - 1) = 20, and their damage is decreased by 0.25 * (2 - 1) = 25%.  
 
 Special thanks to MarkyJoe and Claris, whose Lone Wolf and Redline Slayer/Distance Accuracy plugins, respectively, 
 I've adapted from in the making of this plugin.
