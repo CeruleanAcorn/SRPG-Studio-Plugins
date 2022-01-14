@@ -92,7 +92,6 @@ var alias3 = HitCalculator.calculateSingleHit;
 	var hitRate = alias3.call(this,active,passive,weapon,totalStatus);
 	var theSkill = SkillControl.getPossessionCustomSkill(active,"spread-penalty");
 	if (theSkill != null){
-		root.log("SKILL EXISTS!");
 		var hitPenalty = theSkill.custom.hitPenalty != undefined ? theSkill.custom.hitPenalty : 10;
 		var distanceThreshold = theSkill.custom.distanceThreshold != undefined ? theSkill.custom.distanceThreshold : 1;
 		
