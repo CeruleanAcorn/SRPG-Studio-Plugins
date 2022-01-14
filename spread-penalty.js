@@ -28,7 +28,7 @@ There are some important things to note about the custom parameters:
 	For instance, a value of 2 means a -2 stat reduction per exceeded tile, while 0.2 means a 20% stat reduction per exceeded tile. 
 	- hitPenalty and damagePenalty, if negative, will INCREASE the corresponding stats instead of lowering them.
 
-Example declaration of custom parameter:
+Example declaration of custom parameters:
 "{damagePenalty: 0.25, hitPenalty: 20, distanceThreshold: 1}"
 
 This means that the penalties will be applied to the attacker when they are attacking from more than 1 tile away.
