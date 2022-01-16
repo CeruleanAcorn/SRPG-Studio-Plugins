@@ -87,9 +87,9 @@ DamageCalculator.calculateAttackPower = function(active, passive, weapon, isCrit
 };
 
 // Adapted from Claris' Distance Accuracy Plugin.
-HitCalculator.calculateSingleHit = function(active, passive, weapon, totalStatus) {
 var alias3 = HitCalculator.calculateSingleHit;
-	var hitRate = alias3.call(this,active,passive,weapon,totalStatus);
+HitCalculator.calculateSingleHit = function(active, passive, weapon, totalStatus) {
+	var hitRate = alias3.call(this, active, passive, weapon, totalStatus);
 	var theSkill = SkillControl.getPossessionCustomSkill(active,"spread-penalty");
 	if (theSkill != null){
 		var hitPenalty = theSkill.custom.hitPenalty != undefined ? theSkill.custom.hitPenalty : 10;
