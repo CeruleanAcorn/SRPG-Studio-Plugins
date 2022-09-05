@@ -12,7 +12,7 @@ as seen by default in the unit menu, is their "Atk" value, with the final value 
 The custom parameters involved in this skill are as follows:
 
 damageModifier: The boost to the skill holder's damage. If this is negative, the skill holder's damage will DECREASE instead.
-activationDurability: The durability at which 
+activationDurability: The value which will be compared with the equipped weapon's current durability using comparisonOperator.
 comparisonOperator: the comparison operator comparing the weapon's durability to the durability custom parameter listed
 above. The following valid inputs listed below mean that in order for the skill to activate,
 the weapon's current durability must be...:
