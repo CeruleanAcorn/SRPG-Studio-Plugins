@@ -47,7 +47,7 @@ This means that the user will deal +2 damage if their equipped weapon's durabili
 
 This means that the user will deal +25% damage if their equipped weapon's durability is less than or equal to 5.
 
-Special thanks to Claris, whose Reline Slayer plugin, I've adapted from in the making of this plugin.
+Special thanks to Claris, whose Reline Slayer plugin I've adapted from in the making of this plugin.
 */
 
 // Heavily derived from Claris's Redline Slayer skill plugin.
