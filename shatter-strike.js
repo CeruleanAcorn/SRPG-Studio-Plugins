@@ -32,7 +32,7 @@ Some notes:
 	  if the value is a whole number, the calculcation will treat it as a flat change to the user's damage
 	  but if the value is a decimal, the calculation will treat it as a percentage change dependent on the user's damage on its own.
 	- If comparisonOperator is not any of the inputs outlined above, comparisonOperator defaults to "==".
-    - Observe that if damageModifier is a negative number, the damage will be REDUCED - not increased - accordingly.
+    	- Observe that if damageModifier is a negative number, the damage will be REDUCED - not increased - accordingly.
 	- This plugin does work with weapons which have their uses set to 0 (AKA, it has INFINITE DURABILITY).
 	  Note however that enabling game-wide infinite durability through the game options toggle, "Weapon durability is unlimited"
 	  found in the engine's Config tab, does not trigger this (the calculation in this plugin uses the set uses value of the weapon
