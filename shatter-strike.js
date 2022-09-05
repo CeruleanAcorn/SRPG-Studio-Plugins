@@ -80,12 +80,13 @@ DamageCalculator.calculateAttackPower = function(active, passive, weapon, isCrit
 		}
 	
 		var comparisonToEvaluate = "return " + weapon.getLimit() + comparisonOperator + durabilityRequired;		
-		// Debug - uncomment to view expression and verify that the expression is correct/evaluated correctly in the console.
+		// Debug - uncomment to view expression.
 		//root.log("Expression is: " + comparisonToEvaluate);
 		
 		// Call an anonymous function which runs comparisonToEvaluate as a line of code, therefore returning either true or false.
 		var result = Function(comparisonToEvaluate)();
-		root.log("Result is: " + result);
+		// Debug -  Uncomment to verify that the expression is correct/evaluated correctly in the console.
+		//root.log("Result is: " + result);
 		if(result == true){
 			var boost = 0;
 		
