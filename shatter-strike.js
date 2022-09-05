@@ -46,9 +46,11 @@ This means that the user will deal +2 damage if their equipped weapon's durabili
 "{damageModifier: 0.25,  activationDurability: 5, comparisonOperator: "<="}"
 
 This means that the user will deal +25% damage if their equipped weapon's durability is less than or equal to 5.
+
+Special thanks to Claris, whose Reline Slayer plugin, I've adapted from in the making of this plugin.
 */
 
-// Heavily derived from Lady Rena's Redline Slayer skill plugin.
+// Heavily derived from Claris's Redline Slayer skill plugin.
 (function() {
 var alias1 = SkillRandomizer.isCustomSkillInvokedInternal;
 SkillRandomizer.isCustomSkillInvokedInternal = function(active, passive, skill, keyword) {
