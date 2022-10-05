@@ -3,6 +3,9 @@ shatter-strike.js by CeruleanAcorn
 
 Version 1.0: 09/05/2022
 	- Initial Public Release
+Version 1.1: 09/27/2022
+	- Added percentage variable compatability for activationDurability; skill can now trigger based on 
+	  comparison of current durability and percentage of weapon's max durability instead of a flat value for the latter.
 	
 Using this plugin, through a skill with the keyword "shatter-strike" the user's damage will change depending on the 
 current remaining durability the weapon has. Of note, these changes affect the unit's 
@@ -12,8 +15,8 @@ as seen by default in the unit menu, is their "Atk" value, with the final value 
 The custom parameters involved in this skill are as follows:
 
 damageModifier: The boost to the skill holder's damage. If this is negative, the skill holder's damage will DECREASE instead.
-activationDurability: The value which will be compared with the equipped weapon's current durability using comparisonOperator.
-comparisonOperator: the comparison operator comparing the weapon's durability to the durability custom parameter listed
+activationDurability: The durability which will be compared with the equipped weapon's current durability using comparisonOperator.
+comparisonOperator: The comparison operator comparing the weapon's durability to the durability custom parameter listed
 above. The following valid inputs listed below mean that in order for the skill to activate,
 the weapon's current durability must be...:
  '==': ...equal to...
@@ -32,25 +35,30 @@ Some notes:
 	  if the value is a whole number, the calculcation will treat it as a flat change to the user's damage
 	  but if the value is a decimal, the calculation will treat it as a percentage change dependent on the user's damage on its own.
 	- If comparisonOperator is not any of the inputs outlined above, comparisonOperator defaults to "==".
-    	- Observe that if damageModifier is a negative number, the damage will be REDUCED - not increased - accordingly.
+    - Observe that if damageModifier is a negative number, the damage will be REDUCED - not increased - accordingly.
 	- This plugin does work with weapons which have their uses set to 0 (AKA, it has INFINITE DURABILITY).
 	  Note however that enabling game-wide infinite durability through the game options toggle, "Weapon durability is unlimited"
 	  found in the engine's Config tab, does not trigger this (the calculation in this plugin uses the set uses value of the weapon
 	  which can be seen using the debug comment for viewing the comparison expression).
-	  
+	- As of Version 1.1, this plugin now supports the use of decimal values for activationDurability. When activationDurability is a decimal,
+	  a percentage described by activationDurability of the weapon's max durability, rounded down, will be compared to the remaining durability.
+
 Example declaration of custom parameters:
 "{damageModifier: 2,  activationDurability: 1, comparisonOperator: ">"}"
 
-This means that the user will deal +2 damage if their equipped weapon's durability is greater than 1.
+This means that the user will deal +2 damage if their equipped weapon's current durability is greater than 1.
 
 "{damageModifier: 0.25,  activationDurability: 5, comparisonOperator: "<="}"
 
-This means that the user will deal +25% damage if their equipped weapon's durability is less than or equal to 5.
+This means that the user will deal +25% damage if their equipped weapon's current durability is less than or equal to 5.
+
+"{damageModifier: -5,  activationDurability: 0.5, comparisonOperator: "!="}"
+This means that the user will deal -5 damage if their equipped weapon's current durability is not equal to 50% of the weapon's max durability.
 
 Special thanks to Claris, whose Redline Slayer plugin I've adapted from in the making of this plugin.
 */
 
-// Heavily derived from Claris's Redline Slayer skill plugin.
+// Heavily derived from Lady Rena's Redline Slayer skill plugin.
 (function() {
 var alias1 = SkillRandomizer.isCustomSkillInvokedInternal;
 SkillRandomizer.isCustomSkillInvokedInternal = function(active, passive, skill, keyword) {
@@ -78,22 +86,31 @@ DamageCalculator.calculateAttackPower = function(active, passive, weapon, isCrit
 			//root.log("INVALID");
 			comparisonOperator = '==';
 		}
-	
-		var comparisonToEvaluate = "return " + weapon.getLimit() + comparisonOperator + durabilityRequired;		
-		// Debug - uncomment to view expression.
+		
+
+		// If durabilityRequired is a decimal, compare weapon's current durability to specified percentage of the weapon's max durability.	    
+		if (durabilityRequired % 1 != 0){
+			durabilityRequired = Math.floor(durabilityRequired * weapon.getLimitMax());
+		}
+		
+		var currentDurability = weapon.getLimit();
+		var comparisonToEvaluate = "return " + currentDurability + comparisonOperator + durabilityRequired;		
+		// Debug - uncomment to view expression and verify that the expression is correct/evaluated correctly in the console.
 		//root.log("Expression is: " + comparisonToEvaluate);
 		
 		// Call an anonymous function which runs comparisonToEvaluate as a line of code, therefore returning either true or false.
 		var result = Function(comparisonToEvaluate)();
-		// Debug -  Uncomment to verify that the expression is correct/evaluated correctly in the console.
+		
+		// Debug = uncomment to view evaluation of comparison
 		//root.log("Result is: " + result);
-		if(result == true){
+		
+		if (result == true){
 			var boost = 0;
 		
-			if(damageModifier % 1 != 0){ // damageModifier is NOT a whole number, calculate via percentage.
-				boost = Math.floor(damage*damageModifier);
+			if (damageModifier % 1 != 0){ // damageModifier is NOT a whole number, calculate via percentage.
+				boost = Math.floor(damage * damageModifier);
 				return Math.floor(damage + boost);
-			}else{ // damageModifier IS a whole number, calculate via flat value.
+			} else { // damageModifier IS a whole number, calculate via flat value.
 				return Math.floor(damage + damageModifier);
 			}
 		}
