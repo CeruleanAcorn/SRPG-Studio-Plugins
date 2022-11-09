@@ -34,7 +34,7 @@ Example declaration of custom parameters:
 This means that the penalties will be applied to the attacker when they are attacking from more than 1 tile away.
 So at 2 range, their hit is decreased by 20 * (2 - 1) = 20, and their damage is decreased by 0.25 * (2 - 1) = 25%.  
 
-Special thanks to MarkyJoe and Claris, whose Lone Wolf and Redline Slayer/Distance Accuracy plugins, respectively, 
+Special thanks to MarkyJoe and Maples, whose Lone Wolf and Redline Slayer/Distance Accuracy plugins, respectively, 
 I've adapted from in the making of this plugin.
 */
 
@@ -59,7 +59,7 @@ SkillRandomizer.isCustomSkillInvokedInternal = function(active, passive, skill, 
 	return alias1.call(this, active, passive, skill, keyword);
 };
 
-// Adapted from Claris' Redline Slayer plugin.
+// Adapted from Maples' Redline Slayer plugin.
 var alias2 = DamageCalculator.calculateAttackPower;
 DamageCalculator.calculateAttackPower = function(active, passive, weapon, isCritical, totalStatus, trueHitValue) {
 	var damage = alias2.call(this, active, passive, weapon, isCritical, totalStatus, trueHitValue);
@@ -86,7 +86,7 @@ DamageCalculator.calculateAttackPower = function(active, passive, weapon, isCrit
 	return Math.floor(damage);
 };
 
-// Adapted from Claris' Distance Accuracy Plugin.
+// Adapted from Maples' Distance Accuracy Plugin.
 var alias3 = HitCalculator.calculateSingleHit;
 HitCalculator.calculateSingleHit = function(active, passive, weapon, totalStatus) {
 	var hitRate = alias3.call(this, active, passive, weapon, totalStatus);
