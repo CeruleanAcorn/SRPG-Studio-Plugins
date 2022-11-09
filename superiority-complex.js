@@ -205,7 +205,7 @@ The last of which having graciously taken the time to write the portion of this 
     }
 
     //To ensure this plugin does not clash with any others using Calculator.calculateRoundCount by default, this code is commented out from HERE...
-	/*
+    /*
     var alias8 = CompatibleCalculator.getAgility;
     CompatibleCalculator.getAgility = function (active, passive, weapon) {
         //root.log('Agility accessed for: ' + active.getName());
@@ -225,7 +225,7 @@ The last of which having graciously taken the time to write the portion of this 
         //root.log('agi2 ' + agility);
         return Math.floor(agility);
     }
-	*/
+    */
     //...To HERE. Remove the /* and */ nested within these boundaries AND around Calculator.calculateRoundCount to allow this plugin to modify the user's agility.
 })();
 
