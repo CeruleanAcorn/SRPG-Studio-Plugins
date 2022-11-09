@@ -55,7 +55,7 @@ This means that the user will deal +25% damage if their equipped weapon's curren
 "{damageModifier: -5,  activationDurability: 0.5, comparisonOperator: "!="}"
 This means that the user will deal -5 damage if their equipped weapon's current durability is not equal to 50% of the weapon's max durability.
 
-Special thanks to Claris, whose Redline Slayer plugin I've adapted from in the making of this plugin.
+Special thanks to Maples, whose Redline Slayer plugin I've adapted from in the making of this plugin.
 */
 
 // Heavily derived from Lady Rena's Redline Slayer skill plugin.
