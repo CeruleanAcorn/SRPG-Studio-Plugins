@@ -8,7 +8,7 @@ Using this plugin, through a skill with the keyword "weakest-link" the lowest be
 is used (after considering parameter bonuses) when calculating the damage an attack will deal, a la the Vajra-Mushti's
 Combat Art from Three Houses.
 If the stats are equal, the stat attacked will depend on whatever the weapon naturally targets.
-HUGE thank you to Claris for their CL_DefSwap.js, an invaluable reference this plugin follows
+HUGE thank you to Maples for their CL_DefSwap.js, an invaluable reference this plugin follows
 for using DamageCalculator.calculateDefense.
 */
 
@@ -24,7 +24,7 @@ SkillRandomizer.isCustomSkillInvokedInternal = function(active, passive, skill, 
 var alias2 = DamageCalculator.calculateDefense;
 DamageCalculator.calculateDefense = function(active, passive, weapon, isCritical, totalStatus, trueHitValue) {
 	
-	// Case of engine's Weapon Option for NOGUARD, covered in Claris' CL_ DefSwap function so it's covered here too.
+	// Case of engine's Weapon Option for NOGUARD, covered in Maples' CL_ DefSwap function so it's covered here too.
 	if (this.isNoGuard(active, passive, weapon, isCritical, trueHitValue)) {
 		return 0;
 	}
