@@ -1,27 +1,27 @@
 /* 
 only-retaliate-custom-parameter-ai.js by CeruleanAcorn
 
-Version 1.0: 02/15/2024
+Version 1.0: 03/19/2024
 	- Initial Public Release
-Version 1.01: 03/19/2024
-	- Addition of note to inform of in-engine Unit Settings achieving the unit custom parameter portion of
-	  this plugin's functionality
 
-Similar to only-retaliate-custom-parameter-player.js, but for affecting non-player units.
+***DEPENDENCY NOTICE***
+This plugin needs SkillControl-getPossessionCustomSkillNonWeapon.js active to work!!
+***********************
+
+Similar to only-retaliate-skill-player.js, but for affecting non-player units.
+Similar to only-retaliate-custom-parameter-ai, but allows this to be implemented with a custom skill instead of a
+custom parameter tied to a specific unit or weapon.
 This plugin disallows non-player units from initiating an attack either with a particular weapon
-if the weapon has the custom parameter "onlyRetaliate" set to true. If the unit has "onlyRetaliate" 
-set to true, it will not initiate an attack at all. 
+if the weapon has a custom skill with the keyword "onlyRetaliate". If the unit has a custom skill with the keyword
+"onlyRetaliate", it will not initiate an attack at all. 
 
-Without onlyRetaliate set to true on the unit, they can still choose to initiate with weapons 
-that do not have onlyRetaliate set to true either, if any.
-
-Custom parameter declaration:
-{onlyRetaliate: true}
+If the unit does have a custom skill with the keyword "onlyRetaliate", they can still choose to initiate with weapons 
+that do not have said skill, if any.
 
 ***NOTE***
 "From "Unit Settings", an AI's "Common Pattern Data" -> "Disallowed Action" -> "Use Weapon" appears to achieve the same thing
-as assigning the enemy unit with the custom parameter that uses this plugin, but dealing with the latter is kept anyways for 
-the sake of completeness.
+as assigning the enemy unit with a custom skill that uses this plugin, but dealing with the latter is kept anyways for 
+the sake of completeness and instances where it might be convenient to showcase this AI trait via a skill the player can check.
 
 **EXTRA NOTES FOR SCRIPTERS**
 
@@ -49,12 +49,13 @@ base engine that allows for fusion attacks initiated by the AI.
 
 (function() {
 	
-// Option 1 - Overrides CombinationCollector.Weapon._isWeaponEnabled with an alias
+// Option 1 - Overrides CombinationCollector.Weapon._isWeaponEnabled with an alias.
 var isWeaponEnabledAlias = CombinationCollector.Weapon._isWeaponEnabled;
 CombinationCollector.Weapon._isWeaponEnabled = function(unit, item, misc) {
 	var unitCanAttack = isWeaponEnabledAlias.call(this, unit, item, misc);	
 	if (unitCanAttack == true) {
-		if(unit.custom.onlyRetaliate == true || item.custom.onlyRetaliate == true){
+		if(SkillControl.getPossessionCustomSkillNonWeapon(unit, "onlyRetaliate") != null
+			|| doesItemHaveSpecificCustomSkill(item, "onlyRetaliate") == true){
 			unitCanAttack = false;
 		}
 	}
@@ -66,17 +67,17 @@ CombinationCollector.Weapon._isWeaponEnabled = function(unit, item, misc) {
 	// var i, weapon, filter, rangeMetrics;
 	// var unit = misc.unit;
 	
-	// // Skip checking for weapons entirely if this is the case. Otherwise, runs very similarly to the vanilla function
-	// if(unit.custom.onlyRetaliate != true){	
+	// // Skip checking for weapons entirely if unit has the skill. Otherwise, runs very similarly to the vanilla function.
+	// if(SkillControl.getPossessionCustomSkillNonWeapon(unit, "onlyRetaliate") == null){	
 	// var itemCount = UnitItemControl.getPossessionItemCount(unit);
 		// for (i = 0; i < itemCount; i++) {
 			// weapon = UnitItemControl.getItem(unit, i);
 			// if (weapon === null) {
 				// continue;
 			// }
-			// // New condition added to check for onlyRetaliate (and deny it from being used to initiate an attack if true)
+			// // New condition added to check for onlyRetaliate (and deny it from being used to initiate an attack if true).
 			// if (!weapon.isWeapon() || !this._isWeaponEnabled(unit, weapon, misc)
-				// || weapon.custom.onlyRetaliate == true) { 
+				// || doesItemHaveSpecificCustomSkill(weapon, "onlyRetaliate") == true) { 
 				// continue;
 			// }
 			
@@ -91,5 +92,5 @@ CombinationCollector.Weapon._isWeaponEnabled = function(unit, item, misc) {
 			// this._setUnitRangeCombination(misc, filter, rangeMetrics);
 		// }
 	// }
-//};
+// };
 })()

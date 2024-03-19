@@ -1,5 +1,8 @@
 /*
-only-retaliate-custom-parameter-player.js
+only-retaliate-custom-parameter-player.js by CeruleanAcorn
+
+Version 1.0: 02/15/2024
+	- Initial Public Release
 
 With this plugin, if a weapon has a custom parameter with the keyword "onlyRetaliate" set to true, 
 a player unit cannot use it to initiate an attack on an enemy. If a player unit has the above custom 
@@ -43,8 +46,7 @@ FusionWeaponSelectMenu._isWeaponAllowed = function(unit, item) {
 
 // If any weapon is found as valid for attacking, returns true.
 // Therefore, this change effectively removes any weapon with onlyRetaliate set to true from being included 
-// in the isUnitAttackable calculation, therefore disallowing the attack command to appear in the first place
-// if no valid weapons are found due to onlyRetaliate.
+// in the isUnitAttackable calculation, therefore disallowing the attack command to appear in the first place.
 var isUnitAttackableAlias = AttackChecker.isUnitAttackable;
 AttackChecker.isUnitAttackable = function(unit) {
 	var unitCanAttack = isUnitAttackableAlias.call(this, unit);
@@ -52,8 +54,8 @@ AttackChecker.isUnitAttackable = function(unit) {
 	var count = UnitItemControl.getPossessionItemCount(unit);
 	
 	if(unit.custom.onlyRetaliate == true) {
-		// root.log("Unit onlyRetaliate is true, attack command not displayable.");
 		unitCanAttack = false;
+		// root.log("Unit onlyRetaliate is true, attack command not displayable.");
 	} else if (unitCanAttack == true) {
 		unitCanAttack = false;
 		for (i = 0; i < count; i++) {
