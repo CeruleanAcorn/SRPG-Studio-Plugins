@@ -24,7 +24,7 @@ SkillControl.getPossessionCustomSkillNonWeapon = function(unit, keyword){
 	In this context each digit in these binary sequences represents something related to the unit that is checked for skills
 	to put together the unit's complete array of skills.
 	If the digit is 1, that skill source is checked. If it is 0, it not checked.
-	The rightmost digit represents the unit's equipped weapon.
+	The rightmost 0 digit represents the unit's equipped weapon.
 	It is left as 0 in this case because of the absence of ObjectFlag.WEAPON, so the unit's equipped weapon isn't checked.
 	
 	Observe that the objectFlag variable declared in getSkillMixArray named here as defaultObjectFlag = 11101111.
