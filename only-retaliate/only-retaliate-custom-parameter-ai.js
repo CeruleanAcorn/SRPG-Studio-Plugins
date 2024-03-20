@@ -19,7 +19,7 @@ Custom parameter declaration:
 {onlyRetaliate: true}
 
 ***NOTE***
-"From "Unit Settings", an AI's "Common Pattern Data" -> "Disallowed Action" -> "Use Weapon" appears to achieve the same thing
+From "Unit Settings", an AI's "Common Pattern Data" -> "Disallowed Action" -> "Use Weapon" appears to achieve the same thing
 as assigning the enemy unit with the custom parameter that uses this plugin, but dealing with the latter is kept anyways for 
 the sake of completeness.
 
