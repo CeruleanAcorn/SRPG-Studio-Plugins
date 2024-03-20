@@ -44,10 +44,8 @@ doesItemHaveSpecificCustomSkill = function (item, customKeyword) {
 /* 
 AttackChecker.isUnitAttackable runs BEFORE the attack command appears. 
 If any weapon is found as valid for attacking, returns true, causing the attack command to appear.
-Therefore, this change effectively removes any weapon with IsPacifist == true from being included 
-in the isUnitAttackable calculation.
-Without this, if the weapon is the only one in the inventory, it can still be used to attack
-Therefore allowing the attack command to appear anyway.
+Without this change, if the weapon is the only one in the inventory, it can still be used to attack,
+having allowed the attack command to appear anyway.
 
 The big challenge in this version of only-retaliate is how the unit's skills are checked.
 getSkillMixedArray in singleton-skillcontrol is used to get the unit's skills, with an objectFlag variable that determines 
