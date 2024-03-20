@@ -108,8 +108,8 @@ AttackChecker.isUnitAttackable = function(unit) {
 };
 
 // Similar to AttackChecker.isAttackable but for Fusion Attacks.
-var isFusionAttackableAlias = FusionControl.isAttackable;
 // Check if the unit can fuse with targetUnit based on fusionData.
+var isFusionAttackableAlias = FusionControl.isAttackable;
 FusionControl.isAttackable = function(unit, targetUnit, fusionData) {
 var unitCanFusionAttack = isFusionAttackableAlias.call(this, unit, targetUnit, fusionData);
 	if(unitCanFusionAttack){
