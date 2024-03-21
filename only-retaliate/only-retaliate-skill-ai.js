@@ -32,10 +32,10 @@ There are two options I thought of for handling this.
    by the AI.
 2: Alter CombinationCollector.Weapon.collectCombination, which originally calls 
    CombinationCollector.Weapon._isWeaponEnabled for every weapon in the enemy's inventory anyways, 
-   to skip out on checking weapons at all if the unit itself has the onlyRetaliate set to true.
+   to skip out on checking weapons at all if the unit itself has the custom skill.
    
 I feel like option 2 is better in terms of efficiency (so you don't have to waste as much time calling 
-CombinationCollector.Weapon._isWeaponEnabled needlessly if the unit has onlyRetaliate set to true).
+CombinationCollector.Weapon._isWeaponEnabled needlessly if the unit has the custom skill).
 However, I currently see no return values in collectCombination that would be beneficial to save via an
 alias, so my code for that option OVERRIDES the original function without an alias.
 
