@@ -1,5 +1,5 @@
 /* 
-only-retaliate-custom-parameter-ai.js by CeruleanAcorn
+only-retaliate-skill-ai.js by CeruleanAcorn
 
 Version 1.0: 03/19/2024
 	- Initial Public Release
