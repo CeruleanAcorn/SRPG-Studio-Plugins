@@ -37,3 +37,4 @@ SkillControl.getPossessionCustomSkillNonWeapon = function(unit, keyword){
 	// root.log("Default Binary used is: " + defaultObjectFlag.toString(2));
 	var arr = this.getSkillObjectArray(unit, ItemControl.getEquippedWeapon(unit), SkillType.CUSTOM, keyword, objectFlag);
 	return this._returnSkill(SkillType.CUSTOM, arr);
+}

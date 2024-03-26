@@ -22,7 +22,7 @@ doesItemHaveSpecificCustomSkill function.
 	
 // Derived from Grab_Weapons.js (posted in the SRPG Studio University Discord) by Maple
 doesItemHaveSpecificCustomSkill = function (item, customKeyword) {
-	skill_list = item.getSkillReferenceList()
+	skill_list = item.getSkillReferenceList();
     skill_list_length = skill_list.getTypeCount();
 	// root.log("Checking skills...");
     for (j = 0; j < skill_list_length; j++) {
@@ -154,20 +154,21 @@ WeaponSelectMenu._isWeaponAllowed = function(unit, item) {
 	if (doesItemHaveSpecificCustomSkill(item, "onlyRetaliate")){
 		// root.log("onlyRetaliate on weapon!");
 		return false;
+	}
 	return true;
 };
 
 // Similar to WeaponSelectMenu._isWeaponAllowed but for Fusion Attacks.
 var isFusionWeaponAllowedAlias = FusionWeaponSelectMenu._isWeaponAllowed;
 FusionWeaponSelectMenu._isWeaponAllowed = function(unit, item) {
-		var fusionWeaponIsAllowed = isFusionWeaponAllowedAlias.call(this, unit, item);
-		if(!fusionWeaponIsAllowed){
-			return fusionWeaponIsAllowed;
-		}
-		if (doesItemHaveSpecificCustomSkill(item, "onlyRetaliate")){
-			// root.log("onlyRetaliate on fusion weapon!");
-			return false;
-		}
+	var fusionWeaponIsAllowed = isFusionWeaponAllowedAlias.call(this, unit, item);
+	if(!fusionWeaponIsAllowed){
+		return fusionWeaponIsAllowed;
+	}
+	if (doesItemHaveSpecificCustomSkill(item, "onlyRetaliate")){
+		// root.log("onlyRetaliate on fusion weapon!");
+		return false;
+	}
 	return true;
 };
 
