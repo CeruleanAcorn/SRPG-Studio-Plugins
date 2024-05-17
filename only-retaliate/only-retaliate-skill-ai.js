@@ -15,7 +15,7 @@ This plugin disallows non-player units from initiating an attack either with a p
 if the weapon has a custom skill with the keyword "onlyRetaliate". If the unit has a custom skill with the keyword
 "onlyRetaliate", it will not initiate an attack at all. 
 
-If the unit does have a custom skill with the keyword "onlyRetaliate", they can still choose to initiate with weapons 
+If the unit doesn't have a custom skill with the keyword "onlyRetaliate", they can still choose to initiate with weapons 
 that do not have said skill, if any.
 
 ***NOTE***
