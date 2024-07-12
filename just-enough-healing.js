@@ -43,16 +43,20 @@ Special thanks to Goinza for their Live to Serve plugin, which was used as the b
             var theSkill = SkillControl.getPossessionCustomSkill(unit, "just-enough-healing");
             if(theSkill != null) {
                 var item = this._itemTargetInfo.item;    
+                
 				// Creating a new DynamicEvent object might not be necessary since
 				// RecoveryItemUse already has such a member variable to hold a 
 				// DynamicEvent object; use that instead.
 				var dynamicEvent = this._dynamicEvent;
-				var generator = this._dynamicEvent.acquireEventGenerator();
-				var recoveryInfo = item.getRecoveryInfo(); 
-				var targetUnit = this._itemTargetInfo.targetUnit;
+                var generator = this._dynamicEvent.acquireEventGenerator();
+                var recoveryInfo = item.getRecoveryInfo(); 
+                var targetUnit = this._itemTargetInfo.targetUnit;
+
 				// Look at the target unit's missing HP. If it's within the threshold, apply the extra heal.
 				var targetUnitMissingHP = ParamBonus.getMhp(targetUnit) - targetUnit.getHp();
-				var hpThreshold = theSkill.custom.maximumMissingHP != null ? theSkill.custom.maximumMissingHP : 5;
+				var hpThreshold = theSkill.custom.maximumMissingHP != null ?
+					theSkill.custom.maximumMissingHP : 5;
+				
 				if(targetUnitMissingHP != 0 && targetUnitMissingHP <= hpThreshold){
 					/*
 					Healing animation can begin to play (and is promptly paused) before EXP animation is finished.
@@ -67,8 +71,8 @@ Special thanks to Goinza for their Live to Serve plugin, which was used as the b
 					generator.hpRecovery(targetUnit, item.getItemAnime(), targetUnitMissingHP, recoveryInfo.getRecoveryType(), false);
 					this._dynamicEvent.executeDynamicEvent();
 				}
-			}
-		} 
+            }
+        } 
         return result;
     }
 }) ()
