@@ -1,7 +1,7 @@
 /*
 just-enough-healing.js by CeruleanAcorn
 
-Version 1.0: 01/11/2024 
+Version 1.0: 07/11/2024 
 - Initial Public Release
 
 Using this plugin, with a custom skill with the keyword "just-enough-healing",
