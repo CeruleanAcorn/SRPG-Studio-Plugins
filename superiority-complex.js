@@ -2,7 +2,11 @@
 superiority-complex-js by CeruleanAcorn
 
 Version 1.0: 11/09/2022
-- Initial Public Release
+    - Initial Public Release
+Version 1.1: 09/02/2024
+ - Slight code efficiency upgrade: functions for each possible stat 
+   modification will automatically return unmodified stat values if the 
+   number given in the corresponding custom parameter is less than 0.
 
 With this plugin, using a skill with the custom keyword "superiority-complex", this unit's damage, targeted defensive stat, hit, avo, crit, crit avo and agility (*)
 can all be modified depending on the matching or mismatching of the unit and their target's weapon type and stat target (physical vs magical weapons).
@@ -35,8 +39,10 @@ avoidBoost: Modifier for unit's avoid when skill is triggered. By default, 0.
 critBoost: Modifier for unit's crit when skill is triggered. By default, 0.
 critAvoidBoost: Modifier for unit's crit avoid when skill is triggered. By default, 0.
 
-agilityBoost: Modifier for unit's agility when skill is triggered. By default, 4.
-- (*) By default, to prevent plugin clashing, this will NOT be used unless certain parts of code are uncommented (see warning below).
+agilityBoost: Modifier for unit's agility when skill is triggered. By default, 0.
+- (*) Two things to note for this:
+    - By default, to prevent plugin clashing, this will NOT be used unless certain parts of code are uncommented (see warning below).
+    -  Your project must have "Allow Pursuit" checked. Find it in "Database" -> "Difficulties" -> "Options".
 
 logicOperator: Logic operator for use with sameWeaponTypeOnly and sameStatTargetOnly, when both are not null.
 - If "&&", the skill will be activated if the aforementioned pair of conditions is met.
@@ -74,7 +80,7 @@ If you are working with plugins that also overide the above without an alias, en
 Special thanks go to these folks who have helped the development of this plugin:
 - Goinza
 - Anarch16sync
-- Maples
+- Maple
 - Repeat
 
 The last of which having graciously taken the time to write the portion of this plugin that overrides Calculator.calculateRoundCount.
@@ -88,7 +94,7 @@ The last of which having graciously taken the time to write the portion of this 
             return this._isSkillInvokedInternal(active, passive, skill);
         }
         return alias1.call(this, active, passive, skill, keyword);
-    }
+}
 
     // Find the CompatibleCalculator Object in singleton-calculator.js
     var alias2 = CompatibleCalculator.getPower;
@@ -97,14 +103,18 @@ The last of which having graciously taken the time to write the portion of this 
         var theSkill = SkillControl.getPossessionCustomSkill(active, "superiority-complex");
         if (theSkill != null) {
             var powerBoost = theSkill.custom.powerBoost != undefined ? theSkill.custom.powerBoost : 4;
-            var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
-            var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
-            var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
-            var enemyWeapon = ItemControl.getEquippedWeapon(passive);
-            if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
-                power += powerBoost;
+            // Number given must be greater than 0 for rest of code to trigger.
+            if (powerBoost > 0) {
+                var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
+                var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
+                var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
+                var enemyWeapon = ItemControl.getEquippedWeapon(passive);
+                if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
+                    power += powerBoost;
+                }
             }
         }
+        // root.log("power: " + power);
         return Math.floor(power);
     }
 
@@ -114,14 +124,17 @@ The last of which having graciously taken the time to write the portion of this 
         var theSkill = SkillControl.getPossessionCustomSkill(active, "superiority-complex");
         if (theSkill != null) {
             var defenseBoost = theSkill.custom.defenseBoost != undefined ? theSkill.custom.defenseBoost : 4;
-            var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
-            var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
-            var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
-            var enemyWeapon = ItemControl.getEquippedWeapon(passive);
-            if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
-                defense += defenseBoost;
+            if (defenseBoost > 0) {
+                var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
+                var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
+                var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
+                var enemyWeapon = ItemControl.getEquippedWeapon(passive);
+                if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
+                    defense += defenseBoost;
+                }
             }
         }
+        // root.log("defense: " + defense);
         return Math.floor(defense);
     }
 
@@ -130,11 +143,17 @@ The last of which having graciously taken the time to write the portion of this 
         var hitRate = alias4.call(this, active, passive, weapon);
         var theSkill = SkillControl.getPossessionCustomSkill(active, "superiority-complex");
         if (theSkill != null) {
-            var hitBoost = theSkill.custom.hitBoost != undefined ? theSkill.custom.hitBoost : 0;
-            var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
-            var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
-            var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
-
+            var hitBoost = theSkill.custom.hitBoost != undefined ? theSkill.custom.hitBoost : 50;
+            if (hitBoost > 0) {
+                var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
+                var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
+                var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
+                var enemyWeapon = ItemControl.getEquippedWeapon(passive);
+                if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
+                    hitRate += hitBoost;
+                }
+            }
+            
             if (SkillControl.getPossessionCustomSkill(active, "TrueshotCL") != null) {
                 return hitRate;
             }
@@ -142,12 +161,8 @@ The last of which having graciously taken the time to write the portion of this 
             if (weapon.custom.TrueshotCL) {
                 return hitRate;
             }
-
-            var enemyWeapon = ItemControl.getEquippedWeapon(passive);
-            if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
-                hitRate += hitBoost;
-            }
         }
+        // root.log("hit: " + hitRate);
         return Math.floor(hitRate);
     }
 
@@ -157,16 +172,18 @@ The last of which having graciously taken the time to write the portion of this 
         var theSkill = SkillControl.getPossessionCustomSkill(active, "superiority-complex");
         if (theSkill != null) {
             var avoidBoost = theSkill.custom.avoidBoost != undefined ? theSkill.custom.avoidBoost : 0;
-            var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
-            var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
-            var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
-            var enemyWeapon = ItemControl.getEquippedWeapon(passive);
+            if (avoidBoost > 0) {
+                var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
+                var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
+                var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
+                var enemyWeapon = ItemControl.getEquippedWeapon(passive);
 
-            if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
-                avoid += avoidBoost;
+                if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
+                    avoid += avoidBoost;
+                }
             }
-            //root.log("In the end, avoid is: " + avoid);
         }
+        // root.log("avoid: " + avoid);
         return Math.floor(avoid);
     }
 
@@ -176,14 +193,17 @@ The last of which having graciously taken the time to write the portion of this 
         var theSkill = SkillControl.getPossessionCustomSkill(active, "superiority-complex");
         if (theSkill != null) {
             var critBoost = theSkill.custom.critBoost != undefined ? theSkill.custom.critBoost : 0;
-            var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
-            var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
-            var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
-            var enemyWeapon = ItemControl.getEquippedWeapon(passive);
-            if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
-                crit += critBoost;
+            if (critBoost > 0) {
+                var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
+                var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
+                var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
+                var enemyWeapon = ItemControl.getEquippedWeapon(passive);
+                if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
+                    crit += critBoost;
+                }
             }
         }
+        // root.log("crit: " + crit);
         return Math.floor(crit);
     }
 
@@ -193,36 +213,41 @@ The last of which having graciously taken the time to write the portion of this 
         var theSkill = SkillControl.getPossessionCustomSkill(active, "superiority-complex");
         if (theSkill != null) {
             var critAvoidBoost = theSkill.custom.critAvoidBoost != undefined ? theSkill.custom.critAvoidBoost : 0;
-            var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
-            var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
-            var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
-            var enemyWeapon = ItemControl.getEquippedWeapon(passive);
-            if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
-                critAvoid += critAvoidBoost;
+            if (critAvoidBoost > 0) {
+                var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
+                var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
+                var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
+                var enemyWeapon = ItemControl.getEquippedWeapon(passive);
+                if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
+                    critAvoid += critAvoidBoost;
+                }
             }
         }
+        // root.log("critAvoid: " + critAvoid);
         return Math.floor(critAvoid);
     }
 
-    //To ensure this plugin does not clash with any others using Calculator.calculateRoundCount by default, this code is commented out from HERE...
+    // To modify agility with this plugin, "Allow Pursuit" must be ENABLED in your project's difficulty settings ("Config" -> "Difficulties")
+    // To ensure this plugin does not clash with any others using Calculator.calculateRoundCount by default, this code is commented out from HERE...
     /*
     var alias8 = CompatibleCalculator.getAgility;
     CompatibleCalculator.getAgility = function (active, passive, weapon) {
-        //root.log('Agility accessed for: ' + active.getName());
+        root.log("Allow Pursuit is enabled - CompatibleCalculator.getAgility runs!");
         var agility = alias8.call(this, active, passive, weapon);
         var theSkill = SkillControl.getPossessionCustomSkill(active, "superiority-complex");
-        //root.log('agi1 ' + agility);
         if (theSkill != null) {
-            var agilityBoost = theSkill.custom.agilityBoost != undefined ? theSkill.custom.agilityBoost : 4;
-            var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
-            var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
-            var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
-            var enemyWeapon = ItemControl.getEquippedWeapon(passive);
-            if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
-                agility += agilityBoost;
+            var agilityBoost = theSkill.custom.agilityBoost != undefined ? theSkill.custom.agilityBoost : 0;
+            if (agilityBoost > 0) {
+                var sameWeaponTypeOnly = theSkill.custom.sameWeaponTypeOnly != undefined ? theSkill.custom.sameWeaponTypeOnly : null;
+                var sameStatTargetOnly = theSkill.custom.sameStatTargetOnly != undefined ? theSkill.custom.sameStatTargetOnly : null;
+                var logicalOperator = theSkill.custom.logicalOperator != undefined ? theSkill.custom.logicalOperator : '||';
+                var enemyWeapon = ItemControl.getEquippedWeapon(passive);
+                if (isBoostApplied(weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTargetOnly, logicalOperator)) {
+                    agility += agilityBoost;
+                }
             }
         }
-        //root.log('agi2 ' + agility);
+        root.log("agility: " + agility);
         return Math.floor(agility);
     }
     */
@@ -255,7 +280,7 @@ isBoostApplied = function (weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTarg
                 "||";
             var comparisonToEvaluate = "return " + weaponCheck + logicalOperator + statTargetCheck;
             result = Function(comparisonToEvaluate)();
-            //root.log("whole expression is: " + comparisonToEvaluate); // Debug: Uncomment to view final logical expression to be evaluationed with logicalOperator
+            root.log("whole expression is: " + comparisonToEvaluate); // Debug: Uncomment to view final logical expression to be evaluationed with logicalOperator
         }
     }
 
@@ -268,8 +293,9 @@ isBoostApplied = function (weapon, enemyWeapon, sameWeaponTypeOnly, sameStatTarg
 // Now, only one unit can double the other with this rewrite.
 
 //To ensure this plugin does not clash with any others using Calculator.calculateRoundCount by default, this code is commented out from HERE...
-/*
+
 // UNALIASED FUNCTION, rewritten by Repeat
+/*
 Calculator.calculateRoundCount = function (active, passive, weapon) {
     var activeAgi;
     var passiveAgi;
