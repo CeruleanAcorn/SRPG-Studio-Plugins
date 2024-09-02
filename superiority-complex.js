@@ -4,10 +4,10 @@ superiority-complex-js by CeruleanAcorn
 Version 1.0: 11/09/2022
     - Initial Public Release
 Version 1.1: 09/02/2024
- - Slight code efficiency upgrade: functions for each possible stat 
-   modification will automatically return unmodified stat values if the 
-   number given in the corresponding custom parameter is less than 0.
-
+    - Slight code efficiency upgrade: functions for each possible stat 
+      modification will automatically return unmodified stat values if the 
+      number given in the corresponding custom parameter is less than 0.
+   
 With this plugin, using a skill with the custom keyword "superiority-complex", this unit's damage, targeted defensive stat, hit, avo, crit, crit avo and agility (*)
 can all be modified depending on the matching or mismatching of the unit and their target's weapon type and stat target (physical vs magical weapons).
 For example, you can boost the unit's values in any of the aforementioned areas if they are both wielding the same weapon type.
