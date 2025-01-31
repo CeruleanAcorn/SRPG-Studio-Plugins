@@ -10,7 +10,7 @@ This is achieved through programatically triggering the "Remove Unit" Event Comm
 Additionally, if a player is hit by an enemy with this skill, the EXP gain window will not be shown.
 
 This plugin is written such that the "Erase" option is used for removing units, but this can be changed
-by modifying the value used in the RemoveOption enum in "generator.unitRemove()" (see code below).
+by modifying the value used from the RemoveOption enum in "generator.unitRemove()" (see code below).
 
 No custom parameters are required for this plugin.
 */
