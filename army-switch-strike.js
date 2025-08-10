@@ -3,13 +3,20 @@ army-switch-strike.js by CeruleanAcorn
 
 Version 1.0: 07/13/2025
 	- Initial Public Release
+Version 1.1: 08/10/2025
+    - A Player unit can now switch to an Enemy unit with this skill.
+    - Units can be prevented from switching allegiances if they have the 
+      custom parameter "denySwitch" set to true.
 
 With this plugin, if a unit has a skill with the custom keyword "army-switch-strike",
 then a successful attack on an opposing target can immediately end combat and switch the allegiance of the target.
 If the skill owner is:
     - A PLAYER, and the target is an ENEMY, the target becomes an ALLY.
-    - An ENEMY, and the target is an ALLY, the target becomes an ENEMY.
+    - An ENEMY, and the target is a PLAYER or ALLY, the target becomes an ENEMY.
     - An ALLY, and the target is an ENEMY, the target becomes an ALLY.
+
+An allegiance switch can be prevented if a unit that would otherwise do so has the 
+custom parameter "denySwitch" set to true.
 
 This plugin defines a new "enum" called "ArmySwitch" and function called "whichArmySwitch()".
 */
@@ -19,19 +26,27 @@ This plugin defines a new "enum" called "ArmySwitch" and function called "whichA
 var ArmySwitch = {
     NOSWITCH: 0,
     ENEMYTOALLY: 1,
-    ALLYTOENEMY: 2
+    ALLYTOENEMY: 2,
+    PLAYERTOENEMY: 3
 };
 
 whichArmySwitch = function(active, passive) {
     //root.log(active.getUnitType() + "  is the active unit's UnitType");
     //root.log(passive.getUnitType() + " is the passive unit's UnitType");
-    if ((active.getUnitType() == UnitType.PLAYER || active.getUnitType() == UnitType.ALLY) 
-        && passive.getUnitType() == UnitType.ENEMY) {
-        //root.log("ENEMY TO ALLY!");
-        return ArmySwitch.ENEMYTOALLY;
-    } else if (active.getUnitType() == UnitType.ENEMY && passive.getUnitType() == UnitType.ALLY) {
-        //root.log("ALLY TO ENEMY!");
-        return ArmySwitch.ALLYTOENEMY;
+    if(!passive.custom.denySwitch){
+        if ((active.getUnitType() == UnitType.PLAYER || active.getUnitType() == UnitType.ALLY) 
+            && passive.getUnitType() == UnitType.ENEMY) {
+            //root.log("ENEMY TO ALLY!");
+            return ArmySwitch.ENEMYTOALLY;
+        } else if (active.getUnitType() == UnitType.ENEMY && passive.getUnitType() == UnitType.ALLY) {
+            //root.log("ALLY TO ENEMY!");
+            return ArmySwitch.ALLYTOENEMY;
+        } else if (passive.getUnitType() == UnitType.PLAYER) {
+            //root.log("PLAYER TO ENEMY!");
+            return ArmySwitch.PLAYERTOENEMY;
+        }
+    } else {
+        root.log("DENIED");
     }
     //root.log("NO SWITCH!");
     return ArmySwitch.NOSWITCH;
@@ -100,6 +115,11 @@ PreAttack._doEndAction = function() {
                 generator.execute();
             } else if (passive.getUnitType() == UnitType.ALLY
             && root.getCurrentSession().getTurnType() == TurnType.ENEMY) {
+                delete passive.custom.becomeAlly;
+                var generator = root.getEventGenerator();
+                generator.unitAssign(passive, UnitType.ENEMY);
+                generator.execute();
+            } else if(passive.getUnitType() == UnitType.PLAYER) {
                 delete passive.custom.becomeAlly;
                 var generator = root.getEventGenerator();
                 generator.unitAssign(passive, UnitType.ENEMY);
